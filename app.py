@@ -4,91 +4,68 @@ import joblib
 
 st.set_page_config(page_title="Elderly Diabetes Risk Prediction")
 
-# Sidebar menu
-page = st.sidebar.selectbox(
-    "Menu",
-    ("Prediction", "Model Explanation")
-)
-
-# load models
+# โหลดโมเดล
 ensemble = joblib.load("models/ensemble.pkl")
 mlp = joblib.load("models/nn.pkl")
 scaler = joblib.load("models/scaler.pkl")
 
+# MENU
+page = st.sidebar.selectbox(
+    "Menu",
+    (
+        "About Project",
+        "Model Explanation",
+        "Prediction",
+        "Model Performance",
+        "References"
+    )
+)
+
 # -----------------------------
-# PAGE 1 : Prediction
+# ABOUT PROJECT
 # -----------------------------
-if page == "Prediction":
+if page == "About Project":
 
     st.title("🧓 Elderly Diabetes Risk Prediction")
-    st.write("ระบบทำนายความเสี่ยงโรคเบาหวานในผู้สูงอายุ")
 
-    model_choice = st.sidebar.selectbox(
-        "เลือกโมเดลที่ใช้ทำนาย",
-        ("Ensemble Machine Learning", "Neural Network")
-    )
+    st.header("Project Overview")
 
-    st.header("กรอกข้อมูลสุขภาพ")
+    st.write("""
+โครงการนี้พัฒนาระบบ Machine Learning เพื่อช่วยประเมินความเสี่ยง
+ของโรคเบาหวานในผู้สูงอายุ
 
-    preg = st.number_input("Pregnancies", 0, 20, 0)
-    glu = st.number_input("Glucose", 50, 300, 120)
-    bp = st.number_input("Blood Pressure", 30, 150, 70)
-    skin = st.number_input("Skin Thickness", 0, 100, 20)
-    ins = st.number_input("Insulin", 0, 900, 80)
-    bmi = st.number_input("BMI", 10.0, 60.0, 25.0)
-    dpf = st.number_input("Diabetes Pedigree Function", 0.0, 3.0, 0.5)
-    age = st.number_input("Age", 50, 100, 60)
+ผู้ใช้สามารถกรอกข้อมูลสุขภาพ เช่น ระดับน้ำตาลในเลือด
+ค่าดัชนีมวลกาย และอายุ จากนั้นระบบจะใช้โมเดล AI
+ในการประเมินความเสี่ยงเบื้องต้น
+""")
 
-    if st.button("🔍 Predict Risk"):
+    st.header("Objective")
 
-        input_data = np.array([[preg, glu, bp, skin, ins, bmi, dpf, age]])
-        input_scaled = scaler.transform(input_data)
+    st.write("""
+วัตถุประสงค์ของระบบคือ
 
-        if model_choice == "Ensemble Machine Learning":
-            prediction = ensemble.predict(input_scaled)[0]
-        else:
-            prediction = mlp.predict(input_scaled)[0]
+- ช่วยประเมินความเสี่ยงของโรคเบาหวาน
+- ใช้ Machine Learning วิเคราะห์ข้อมูลสุขภาพ
+- เป็นเครื่องมือช่วยคัดกรองเบื้องต้น
+""")
 
-        if prediction == 1:
-            st.error("⚠️ มีความเสี่ยงเป็นโรคเบาหวาน")
-        else:
-            st.success("✅ ความเสี่ยงต่ำ")
-
-        st.info("ผลลัพธ์นี้เป็นการประเมินเบื้องต้น ไม่ใช่การวินิจฉัยทางการแพทย์")
+    st.warning("ระบบนี้ไม่สามารถใช้แทนการวินิจฉัยทางการแพทย์ได้")
 
 
 # -----------------------------
-# PAGE 2 : Model Explanation
+# MODEL EXPLANATION
 # -----------------------------
 elif page == "Model Explanation":
+    
 
     st.title("📊 Model Explanation")
 
-    st.header("1. Purpose of the Model")
-    st.write("""
-โมเดลนี้ถูกพัฒนาขึ้นเพื่อช่วยประเมินความเสี่ยงของโรคเบาหวานในผู้สูงอายุ  
-ระบบจะรับข้อมูลสุขภาพของผู้ใช้ แล้วนำไปผ่านโมเดล Machine Learning  
-เพื่อคำนวณความน่าจะเป็นของการเป็นโรคเบาหวาน
-""")
-
-    st.header("2. Dataset")
+    st.header("Dataset")
 
     st.write("""
-โมเดลนี้ฝึกด้วย **Pima Indians Diabetes Dataset**
+โมเดลนี้ถูกฝึกด้วย **Pima Indians Diabetes Dataset**
 
-Dataset นี้ประกอบด้วยข้อมูลสุขภาพ เช่น
-
-- ระดับน้ำตาลในเลือด
-- ความดันโลหิต
-- BMI
-- อายุ
-- ประวัติครอบครัวเกี่ยวกับโรคเบาหวาน
-""")
-
-    st.header("3. Input Features")
-
-    st.markdown("""
-โมเดลใช้ตัวแปรทั้งหมด **8 ตัว**
+Dataset นี้ประกอบด้วยข้อมูลสุขภาพของผู้ป่วย เช่น
 
 - Pregnancies
 - Glucose
@@ -100,59 +77,172 @@ Dataset นี้ประกอบด้วยข้อมูลสุขภา
 - Age
 """)
 
-    st.header("4. Data Preprocessing")
+    st.header("Features Used")
+
+    st.write("""
+โมเดลใช้ตัวแปรทั้งหมด 8 ตัวในการทำนาย
+
+1. Pregnancies
+2. Glucose
+3. Blood Pressure
+4. Skin Thickness
+5. Insulin
+6. BMI
+7. Diabetes Pedigree Function
+8. Age
+""")
+
+    st.header("Data Preprocessing")
 
     st.write("""
 ก่อนส่งข้อมูลเข้าโมเดล ระบบจะทำ **Feature Scaling**
+โดยใช้ StandardScaler
 
-เราใช้ **StandardScaler**
-
-เพื่อทำให้ข้อมูลทุกตัวแปรมีช่วงค่าใกล้เคียงกัน  
+การทำ scaling จะช่วยให้ค่าของตัวแปรอยู่ในช่วงใกล้เคียงกัน
 ซึ่งช่วยให้โมเดลเรียนรู้ได้มีประสิทธิภาพมากขึ้น
 """)
 
-    st.header("5. Machine Learning Models")
+    st.header("Machine Learning Models")
 
     st.subheader("Ensemble Machine Learning")
 
     st.write("""
-Ensemble Model คือการรวมหลายโมเดลเข้าด้วยกัน
+Ensemble เป็นเทคนิคที่รวมหลายโมเดลเข้าด้วยกัน
+เพื่อเพิ่มความแม่นยำในการทำนาย
+""")
+    
+    st.subheader("Ensemble Model Structure")
 
-ข้อดี
+    st.write("""
+โมเดล Ensemble ในระบบนี้ประกอบด้วย Machine Learning หลายโมเดล ได้แก่
 
-- เพิ่มความแม่นยำ
-- ลด Overfitting
-- ทำให้การทำนายมีความเสถียรมากขึ้น
+• Decision Tree  
+• Random Forest  
+• Gradient Boosting
+
+แต่ละโมเดลจะทำการเรียนรู้ข้อมูลแยกกัน
+จากนั้นระบบจะรวมผลลัพธ์ของทุกโมเดลเข้าด้วยกัน
+เพื่อให้ได้ผลลัพธ์ที่แม่นยำมากขึ้น
+""")
+    st.subheader("Decision Tree")
+
+    st.write("""
+Decision Tree เป็นโมเดลที่ทำการตัดสินใจในรูปแบบโครงสร้างต้นไม้
+โดยจะแบ่งข้อมูลตามเงื่อนไขของตัวแปรต่าง ๆ เช่น
+ระดับน้ำตาลในเลือด หรือค่า BMI
+""")
+    st.subheader("Random Forest")
+
+    st.write("""
+Random Forest เป็นการรวม Decision Tree หลายต้นเข้าด้วยกัน
+โดยแต่ละต้นจะเรียนรู้จากข้อมูลที่แตกต่างกันเล็กน้อย
+
+ผลลัพธ์สุดท้ายจะใช้วิธีการโหวต (Voting)
+ซึ่งช่วยลดปัญหา Overfitting และเพิ่มความเสถียรของโมเดล
+""")
+    
+    st.subheader("Gradient Boosting")
+
+    st.write("""
+Gradient Boosting เป็นโมเดลที่สร้าง Decision Tree หลายต้น
+โดยแต่ละต้นจะพยายามแก้ไขข้อผิดพลาดของต้นก่อนหน้า
+
+วิธีนี้ช่วยให้โมเดลสามารถเรียนรู้ pattern ของข้อมูลได้ดีขึ้น
 """)
 
     st.subheader("Neural Network")
 
     st.write("""
-Neural Network เป็นโมเดลที่เลียนแบบโครงสร้างสมองมนุษย์
-
-ประกอบด้วย
-
-- Input Layer
-- Hidden Layer
-- Output Layer
-
-โมเดลสามารถเรียนรู้ pattern ที่ซับซ้อนในข้อมูลได้
+Neural Network เป็นโมเดลที่เลียนแบบโครงสร้างของสมองมนุษย์
+และสามารถเรียนรู้ pattern ที่ซับซ้อนในข้อมูลได้
 """)
 
-    st.header("6. Prediction Workflow")
+    st.header("Prediction Workflow")
 
-    st.markdown("""
+    st.write("""
 ขั้นตอนการทำงานของระบบ
 
-1. ผู้ใช้กรอกข้อมูลสุขภาพ  
-2. ระบบทำ Data Scaling  
-3. ส่งข้อมูลเข้าสู่ Machine Learning Model  
+1. ผู้ใช้กรอกข้อมูลสุขภาพ
+2. ระบบทำ Data Scaling
+3. ส่งข้อมูลเข้าสู่ Machine Learning Model
 4. โมเดลทำนายความเสี่ยงโรคเบาหวาน
 """)
 
-    st.header("7. Limitations")
 
-    st.warning("""
-ระบบนี้เป็นเพียงเครื่องมือช่วยประเมินความเสี่ยงเบื้องต้น  
-ไม่สามารถใช้แทนการวินิจฉัยของแพทย์ได้
+# -----------------------------
+# PREDICTION PAGE
+# -----------------------------
+elif page == "Prediction":
+
+    st.title("🔍 Diabetes Risk Prediction")
+
+    model_choice = st.selectbox(
+        "เลือกโมเดลที่ใช้ทำนาย",
+        ("Ensemble Machine Learning", "Neural Network")
+    )
+
+    preg = st.number_input("Pregnancies", 0, 20, 0)
+    glu = st.number_input("Glucose", 50, 300, 120)
+    bp = st.number_input("Blood Pressure", 30, 150, 70)
+    skin = st.number_input("Skin Thickness", 0, 100, 20)
+    ins = st.number_input("Insulin", 0, 900, 80)
+    bmi = st.number_input("BMI", 10.0, 60.0, 25.0)
+    dpf = st.number_input("Diabetes Pedigree Function", 0.0, 3.0, 0.5)
+    age = st.number_input("Age", 50, 100, 60)
+
+    if st.button("Predict Risk"):
+
+        input_data = np.array([[preg, glu, bp, skin, ins, bmi, dpf, age]])
+
+        input_scaled = scaler.transform(input_data)
+
+        if model_choice == "Ensemble Machine Learning":
+            prediction = ensemble.predict(input_scaled)[0]
+        else:
+            prediction = mlp.predict(input_scaled)[0]
+
+        if prediction == 1:
+            st.error("⚠️ High Risk of Diabetes")
+        else:
+            st.success("✅ Low Risk")
+
+        st.info("This result is only for preliminary screening.")
+
+
+# -----------------------------
+# MODEL PERFORMANCE
+# -----------------------------
+elif page == "Model Performance":
+
+    st.title("📈 Model Performance")
+
+    st.write("""
+โมเดลถูกประเมินผลด้วยชุดข้อมูลทดสอบ
+เพื่อวัดประสิทธิภาพของการทำนาย
+""")
+
+    st.write("""
+Model Accuracy Results
+
+Decision Tree: 0.67  
+Random Forest: 0.85  
+Gradient Boosting: 0.67  
+Ensemble Model: 0.74  
+Neural Network: 0.74
+""")
+
+# -----------------------------
+# REFERENCES
+# -----------------------------
+elif page == "References":
+
+    st.title("📚 References")
+
+    st.write("""
+1. Kaggle Dataset  
+Pima Indians Diabetes Dataset  
+https://www.kaggle.com/datasets/uciml/pima-indians-diabetes-database
+
+2. Scikit-learn Documentation  
+https://scikit-learn.org
 """)
