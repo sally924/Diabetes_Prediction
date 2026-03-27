@@ -27,6 +27,8 @@ page = st.sidebar.selectbox(
 if page == "About Project":
 
     st.title("🧓 Elderly Diabetes Risk Prediction")
+    
+    st.image("images/poster.png")
 
     st.header("Project Overview")
 
@@ -107,8 +109,16 @@ Dataset นี้ประกอบด้วยข้อมูลสุขภา
     st.subheader("Ensemble Machine Learning")
 
     st.write("""
-Ensemble เป็นเทคนิคที่รวมหลายโมเดลเข้าด้วยกัน
-เพื่อเพิ่มความแม่นยำในการทำนาย
+Ensemble Machine Learning เป็นเทคนิคที่นำโมเดลหลายตัวมาทำงานร่วมกัน
+เพื่อเพิ่มประสิทธิภาพในการทำนาย โดยแนวคิดหลักคือ
+การรวมจุดเด่นของแต่ละโมเดลเข้าด้วยกัน เพื่อลดข้อผิดพลาดของโมเดลเดี่ยว
+
+แทนที่จะพึ่งพาการตัดสินใจจากโมเดลเพียงตัวเดียว
+Ensemble จะใช้ผลลัพธ์จากหลายโมเดลมาประกอบกัน
+เช่น การโหวต (Voting) หรือการเฉลี่ยผลลัพธ์
+
+แนวทางนี้ช่วยให้โมเดลมีความแม่นยำสูงขึ้น
+มีความเสถียรมากขึ้น และลดปัญหา Overfitting ได้อย่างมีประสิทธิภาพ
 """)
     
     st.subheader("Ensemble Model Structure")
@@ -125,38 +135,87 @@ Ensemble เป็นเทคนิคที่รวมหลายโมเ�
 เพื่อให้ได้ผลลัพธ์ที่แม่นยำมากขึ้น
 """)
     st.subheader("Decision Tree")
+    
+    st.image("images/decision_tree.png", caption="source: https://www.datacamp.com/tutorial/decision-tree-classification-python")
 
     st.write("""
-Decision Tree เป็นโมเดลที่ทำการตัดสินใจในรูปแบบโครงสร้างต้นไม้
-โดยจะแบ่งข้อมูลตามเงื่อนไขของตัวแปรต่าง ๆ เช่น
-ระดับน้ำตาลในเลือด หรือค่า BMI
+Decision Tree เป็นโมเดล Machine Learning ที่มีโครงสร้างเป็นลักษณะต้นไม้
+โดยแต่ละโหนด (Node) จะแทนเงื่อนไขในการตัดสินใจ
+และแต่ละกิ่ง (Branch) จะแทนผลลัพธ์ของเงื่อนไขนั้น
+
+โมเดลจะทำการแบ่งข้อมูลออกเป็นกลุ่มย่อย ๆ
+ตามค่าของตัวแปร เช่น ระดับน้ำตาลในเลือด (Glucose)
+หรือค่าดัชนีมวลกาย (BMI)
+
+ข้อดีของ Decision Tree คือสามารถเข้าใจได้ง่าย
+และสามารถอธิบายการตัดสินใจของโมเดลได้อย่างชัดเจน
+
+อย่างไรก็ตาม โมเดลนี้มีข้อจำกัดคือ
+อาจเกิด Overfitting ได้ง่าย หากต้นไม้มีความลึกมากเกินไป
 """)
     st.subheader("Random Forest")
+    
+    st.image("images/random_forest.jpg",caption="source: https://datahacker.rs/012-machine-learning-introduction-to-random-forest/")
 
     st.write("""
-Random Forest เป็นการรวม Decision Tree หลายต้นเข้าด้วยกัน
-โดยแต่ละต้นจะเรียนรู้จากข้อมูลที่แตกต่างกันเล็กน้อย
+Random Forest เป็นเทคนิค Ensemble ที่พัฒนามาจาก Decision Tree
+โดยการสร้างต้นไม้หลายต้น (Multiple Decision Trees)
 
-ผลลัพธ์สุดท้ายจะใช้วิธีการโหวต (Voting)
-ซึ่งช่วยลดปัญหา Overfitting และเพิ่มความเสถียรของโมเดล
+แต่ละต้นจะถูกฝึกด้วยชุดข้อมูลที่สุ่มขึ้นมา (Random Sampling)
+และเลือกใช้คุณลักษณะ (Features) แบบสุ่มในแต่ละรอบ
+
+เมื่อมีการทำนายผล โมเดลจะใช้วิธีการโหวต (Voting)
+จากผลลัพธ์ของต้นไม้ทั้งหมด เพื่อหาคำตอบสุดท้าย
+
+ข้อดีของ Random Forest คือ
+สามารถลดปัญหา Overfitting ได้ดี
+และให้ผลลัพธ์ที่มีความแม่นยำและเสถียรกว่า Decision Tree เพียงตัวเดียว
+
+จึงเป็นโมเดลที่นิยมใช้ในงาน Machine Learning อย่างแพร่หลาย
 """)
     
     st.subheader("Gradient Boosting")
+    
+    st.image("images/gradient_boosting.png",caption="source: https://datascience.eu/machine-learning/gradient-boosting-what-you-need-to-know/")
 
     st.write("""
-Gradient Boosting เป็นโมเดลที่สร้าง Decision Tree หลายต้น
-โดยแต่ละต้นจะพยายามแก้ไขข้อผิดพลาดของต้นก่อนหน้า
+Gradient Boosting เป็นเทคนิค Ensemble ที่สร้างโมเดลแบบลำดับขั้น (Sequential)
+โดยแต่ละโมเดลใหม่จะถูกสร้างขึ้นเพื่อแก้ไขข้อผิดพลาดของโมเดลก่อนหน้า
 
-วิธีนี้ช่วยให้โมเดลสามารถเรียนรู้ pattern ของข้อมูลได้ดีขึ้น
+โมเดลจะเรียนรู้จาก residual error หรือความผิดพลาด
+แล้วปรับปรุงผลลัพธ์ให้ดีขึ้นในแต่ละรอบ
+
+กระบวนการนี้ทำให้ Gradient Boosting
+สามารถเรียนรู้ pattern ที่ซับซ้อนในข้อมูลได้ดี
+
+ข้อดีคือมีความแม่นยำสูง
+แต่ข้อเสียคือใช้เวลาในการฝึกโมเดลนาน
+และต้องมีการปรับค่าพารามิเตอร์ (Hyperparameters) อย่างเหมาะสม
 """)
 
     st.subheader("Neural Network")
+    
+    st.image("images/Neural_Networks.png", caption="source: https://www.geeksforgeeks.org/deep-learning/artificial-neural-networks-and-its-applications/")
 
     st.write("""
-Neural Network เป็นโมเดลที่เลียนแบบโครงสร้างของสมองมนุษย์
-และสามารถเรียนรู้ pattern ที่ซับซ้อนในข้อมูลได้
-""")
+Neural Network เป็นโมเดลที่ได้รับแรงบันดาลใจจากโครงสร้างของสมองมนุษย์
+โดยประกอบด้วยโหนด (Nodes) หรือที่เรียกว่า Neurons
+ซึ่งเชื่อมต่อกันเป็นชั้น (Layers)
 
+โมเดลประกอบด้วย 3 ส่วนหลัก ได้แก่
+Input Layer, Hidden Layers และ Output Layer
+
+Neural Network สามารถเรียนรู้ความสัมพันธ์ที่ซับซ้อนของข้อมูลได้
+โดยใช้กระบวนการที่เรียกว่า Forward Propagation และ Backpropagation
+
+ข้อดีของ Neural Network คือ
+สามารถจัดการกับข้อมูลที่มีความซับซ้อนสูงได้ดี
+เช่น ความสัมพันธ์ระหว่างหลายตัวแปรทางสุขภาพ
+
+อย่างไรก็ตาม โมเดลนี้ต้องการข้อมูลจำนวนมาก
+และใช้เวลาในการฝึกค่อนข้างสูง
+เมื่อเทียบกับโมเดล Machine Learning แบบดั้งเดิม
+""")
     st.header("Prediction Workflow")
 
     st.write("""
