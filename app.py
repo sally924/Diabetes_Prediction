@@ -176,7 +176,7 @@ Random Forest เป็นเทคนิค Ensemble ที่พัฒนา�
     
     st.subheader("Gradient Boosting")
     
-    st.image("images/gradient_boosting.png",caption="source: https://datascience.eu/machine-learning/gradient-boosting-what-you-need-to-know/")
+    st.image("images/Gradient_Boosting.png",caption="source: https://datascience.eu/machine-learning/gradient-boosting-what-you-need-to-know/")
 
     st.write("""
 Gradient Boosting เป็นเทคนิค Ensemble ที่สร้างโมเดลแบบลำดับขั้น (Sequential)
