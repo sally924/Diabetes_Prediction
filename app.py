@@ -35,32 +35,57 @@ page = st.sidebar.selectbox(
 # -----------------------------
 if page == "About Project":
 
-    st.title("🧓 Elderly Diabetes Risk Prediction")
-    
-    st.image("images/poster.png")
+    st.title("🧠 AI Health Risk Prediction System")
 
     st.header("Project Overview")
 
     st.write("""
-โครงการนี้พัฒนาระบบ Machine Learning เพื่อช่วยประเมินความเสี่ยง
-ของโรคเบาหวานในผู้สูงอายุ
+โครงการนี้เป็นการพัฒนา Web Application สำหรับวิเคราะห์และทำนายความเสี่ยง
+ด้านสุขภาพ โดยใช้เทคนิค Machine Learning และ Neural Network
 
-ผู้ใช้สามารถกรอกข้อมูลสุขภาพ เช่น ระดับน้ำตาลในเลือด
-ค่าดัชนีมวลกาย และอายุ จากนั้นระบบจะใช้โมเดล AI
-ในการประเมินความเสี่ยงเบื้องต้น
+ภายในระบบมีการใช้ Dataset จำนวน 2 ชุด ได้แก่
+- ข้อมูลโรคเบาหวาน (Diabetes Dataset)
+- ข้อมูลมะเร็งเต้านม (Breast Cancer Dataset)
+
+ข้อมูลทั้งสองชุดมีลักษณะไม่สมบูรณ์ในบางส่วน
+จึงต้องผ่านกระบวนการ Data Preparation เช่น การทำความสะอาดข้อมูล
+และการปรับสเกล (Feature Scaling) ก่อนนำไปใช้ในการพัฒนาโมเดล
+""")
+
+    st.header("Models Used")
+
+    st.write("""
+ระบบนี้พัฒนาโมเดลทั้งหมด 2 ประเภท ได้แก่
+
+1. Ensemble Machine Learning Model  
+   - ประกอบด้วยหลายโมเดล เช่น Decision Tree, Random Forest และ Gradient Boosting  
+   - ใช้การรวมผลลัพธ์ (Ensemble) เพื่อเพิ่มความแม่นยำ  
+
+2. Neural Network Model  
+   - ออกแบบโครงสร้างโมเดลเอง  
+   - สามารถเรียนรู้ความสัมพันธ์ที่ซับซ้อนของข้อมูลได้ดี  
+""")
+
+    st.header("System Features")
+
+    st.write("""
+- วิเคราะห์ข้อมูลสุขภาพของผู้ใช้งาน  
+- ทำนายความเสี่ยงของโรคเบาหวาน  
+- ทำนายความเสี่ยงของมะเร็งเต้านม  
+- เปรียบเทียบผลลัพธ์จาก Machine Learning และ Neural Network  
+- ใช้งานผ่าน Web Application ได้ง่าย  
 """)
 
     st.header("Objective")
 
     st.write("""
-วัตถุประสงค์ของระบบคือ
-
-- ช่วยประเมินความเสี่ยงของโรคเบาหวาน
-- ใช้ Machine Learning วิเคราะห์ข้อมูลสุขภาพ
-- เป็นเครื่องมือช่วยคัดกรองเบื้องต้น
+- ศึกษากระบวนการพัฒนา Machine Learning และ Neural Network  
+- ฝึกการเตรียมข้อมูล (Data Preparation) จากข้อมูลที่ไม่สมบูรณ์  
+- เปรียบเทียบประสิทธิภาพของโมเดลหลายประเภท  
+- พัฒนา Web Application สำหรับใช้งานจริง  
 """)
 
-    st.warning("ระบบนี้ไม่สามารถใช้แทนการวินิจฉัยทางการแพทย์ได้")
+    st.warning("ระบบนี้เป็นเพียงเครื่องมือช่วยประเมินความเสี่ยงเบื้องต้น และไม่สามารถใช้แทนการวินิจฉัยทางการแพทย์ได้")
 
 
 # -----------------------------
@@ -215,7 +240,7 @@ Gradient Boosting เป็นเทคนิค Ensemble ที่สร้า�
 # -----------------------------
 # PREDICTION PAGE
 # -----------------------------
-elif page == "Prediction":
+elif page == "Diabetes Risk Prediction (Machine Learning)":
 
     st.title("Diabetes Risk Prediction (Machine Learning)")
 
