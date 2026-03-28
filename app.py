@@ -9,14 +9,23 @@ ensemble = joblib.load("models/ensemble.pkl")
 mlp = joblib.load("models/nn.pkl")
 scaler = joblib.load("models/scaler.pkl")
 
+nn = joblib.load("models/nn_project2.pkl")
+scaler2 = joblib.load("models/scaler_project2.pkl")
+
 # MENU
 page = st.sidebar.selectbox(
     "Menu",
     (
         "About Project",
-        "Model Explanation",
-        "Prediction",
-        "Model Performance",
+        
+        "Model 1) Explanation",
+        "Diabetes Risk Prediction (Machine Learning)",
+        "Model 1) Performance",
+        
+        "Model 2) Explanation",
+        "Breast Cancer Prediction (Neural Network)",
+        "Model 2) Performance",
+        
         "References"
     )
 )
@@ -57,7 +66,7 @@ if page == "About Project":
 # -----------------------------
 # MODEL EXPLANATION
 # -----------------------------
-elif page == "Model Explanation":
+elif page == "Model 1) Explanation":
     
 
     st.title("📊 Model Explanation")
@@ -233,7 +242,7 @@ Neural Network สามารถเรียนรู้ความสัม�
 # -----------------------------
 elif page == "Prediction":
 
-    st.title("🔍 Diabetes Risk Prediction")
+    st.title("Diabetes Risk Prediction (Machine Learning)")
 
     model_choice = st.selectbox(
         "เลือกโมเดลที่ใช้ทำนาย",
@@ -271,7 +280,7 @@ elif page == "Prediction":
 # -----------------------------
 # MODEL PERFORMANCE
 # -----------------------------
-elif page == "Model Performance":
+elif page == "Model 1) Performance":
 
     st.title("📈 Model Performance")
 
@@ -288,6 +297,125 @@ Random Forest: 0.85
 Gradient Boosting: 0.67  
 Ensemble Model: 0.74  
 Neural Network: 0.74
+""")
+
+elif page == "Model 2) Explanation":
+
+    st.title("🎗️ Breast Cancer Prediction - Model Explanation")
+
+    st.header("Dataset")
+
+    st.write("""
+โมเดลนี้ถูกพัฒนาจาก Breast Cancer Dataset
+ซึ่งใช้ข้อมูลคุณลักษณะของเซลล์เนื้องอก
+เพื่อทำนายว่าเป็นเนื้อร้าย (Malignant) หรือไม่ (Benign)
+""")
+
+    st.header("Features Used")
+
+    st.write("""
+ในโปรเจคนี้ได้เลือกใช้ feature ที่สำคัญจำนวน 5 ตัว ได้แก่
+
+- radius_mean
+- texture_mean
+- perimeter_mean
+- area_mean
+- smoothness_mean
+
+เหตุผลที่เลือก feature เหล่านี้เพราะเป็นตัวแทนของลักษณะทางกายภาพ
+ของเซลล์ที่มีผลต่อการวินิจฉัยโรค
+""")
+
+    st.header("Why Neural Network")
+
+    st.write("""
+Neural Network ถูกเลือกใช้เนื่องจากสามารถเรียนรู้ความสัมพันธ์
+ที่ซับซ้อนของข้อมูลได้ดีกว่าโมเดลทั่วไป
+
+ข้อดีของ Neural Network:
+
+1. สามารถเรียนรู้ pattern ที่ซับซ้อนได้
+2. รองรับข้อมูลหลายมิติได้ดี
+3. เหมาะกับงานด้านการแพทย์ที่มีหลายปัจจัยร่วมกัน
+
+ในโมเดลนี้ใช้โครงสร้าง:
+
+- Input Layer (5 features)
+- Hidden Layer 1 (64 neurons)
+- Hidden Layer 2 (32 neurons)
+- Output Layer (Binary Classification)
+""")
+
+    st.header("Data Preprocessing")
+
+    st.write("""
+ก่อนนำข้อมูลเข้าโมเดล ได้มีการทำ Feature Scaling
+โดยใช้ StandardScaler
+
+การ scaling ช่วยให้ค่าของแต่ละ feature อยู่ในช่วงที่ใกล้เคียงกัน
+ทำให้ Neural Network เรียนรู้ได้มีประสิทธิภาพมากขึ้น
+""")
+
+    st.header("Prediction Workflow")
+
+    st.write("""
+ขั้นตอนการทำงานของระบบ:
+
+1. รับ input จากผู้ใช้
+2. ทำการ scaling ข้อมูล
+3. ส่งข้อมูลเข้า Neural Network
+4. ทำนายผลว่าเป็น Malignant หรือ Benign
+""")
+    
+elif page == "Breast Cancer Prediction (Neural Network)":
+
+    st.title("🎗️ Breast Cancer Prediction (Neural Network)")
+
+    model = joblib.load("models/nn_project2.pkl")
+    scaler = joblib.load("models/scaler_project2.pkl")
+
+    radius = st.number_input("Radius Mean", 5.0, 30.0, 14.0)
+    texture = st.number_input("Texture Mean", 5.0, 40.0, 20.0)
+    perimeter = st.number_input("Perimeter Mean", 40.0, 200.0, 90.0)
+    area = st.number_input("Area Mean", 100.0, 2500.0, 500.0)
+    smoothness = st.number_input("Smoothness Mean", 0.05, 0.2, 0.1)
+
+    if st.button("Predict Cancer Risk"):
+
+        input_data = np.array([[radius, texture, perimeter, area, smoothness]])
+        input_scaled = scaler.transform(input_data)
+
+        pred = model.predict(input_scaled)[0]
+
+        if pred == 1:
+            st.error("⚠️ High Risk (Malignant)")
+        else:
+            st.success("✅ Low Risk (Benign)")
+            
+elif page == "Model 2) Performance":
+
+    st.title("📈 Model 2 Performance")
+
+    st.write("""
+โมเดล Neural Network ถูกประเมินผลด้วยชุดข้อมูลทดสอบ
+(Test Set) เพื่อวัดความสามารถในการทำนาย
+""")
+
+    st.subheader("Accuracy")
+
+    st.write("""
+Accuracy: 0.9649
+""")
+
+    st.write("""
+โมเดลสามารถทำนายได้อย่างแม่นยำสูงถึง 96.49%
+
+แสดงให้เห็นว่า Neural Network สามารถเรียนรู้ pattern
+ของข้อมูลทางการแพทย์ได้อย่างมีประสิทธิภาพ
+
+ค่าความแม่นยำที่สูงนี้บ่งบอกว่าโมเดลมีความสามารถ
+ในการแยกแยะระหว่างเนื้อร้าย (Malignant)
+และเนื้อไม่ร้ายแรง (Benign) ได้ดี
 """)
 
 # -----------------------------
