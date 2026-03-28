@@ -200,30 +200,6 @@ Gradient Boosting เป็นเทคนิค Ensemble ที่สร้า�
 แต่ข้อเสียคือใช้เวลาในการฝึกโมเดลนาน
 และต้องมีการปรับค่าพารามิเตอร์ (Hyperparameters) อย่างเหมาะสม
 """)
-
-    st.subheader("Neural Network")
-    
-    st.image("images/Neural_Networks.png", caption="source: https://www.geeksforgeeks.org/deep-learning/artificial-neural-networks-and-its-applications/")
-
-    st.write("""
-Neural Network เป็นโมเดลที่ได้รับแรงบันดาลใจจากโครงสร้างของสมองมนุษย์
-โดยประกอบด้วยโหนด (Nodes) หรือที่เรียกว่า Neurons
-ซึ่งเชื่อมต่อกันเป็นชั้น (Layers)
-
-โมเดลประกอบด้วย 3 ส่วนหลัก ได้แก่
-Input Layer, Hidden Layers และ Output Layer
-
-Neural Network สามารถเรียนรู้ความสัมพันธ์ที่ซับซ้อนของข้อมูลได้
-โดยใช้กระบวนการที่เรียกว่า Forward Propagation และ Backpropagation
-
-ข้อดีของ Neural Network คือ
-สามารถจัดการกับข้อมูลที่มีความซับซ้อนสูงได้ดี
-เช่น ความสัมพันธ์ระหว่างหลายตัวแปรทางสุขภาพ
-
-อย่างไรก็ตาม โมเดลนี้ต้องการข้อมูลจำนวนมาก
-และใช้เวลาในการฝึกค่อนข้างสูง
-เมื่อเทียบกับโมเดล Machine Learning แบบดั้งเดิม
-""")
     st.header("Prediction Workflow")
 
     st.write("""
@@ -323,6 +299,30 @@ elif page == "Model 2) Explanation":
 
 เหตุผลที่เลือก feature เหล่านี้เพราะเป็นตัวแทนของลักษณะทางกายภาพ
 ของเซลล์ที่มีผลต่อการวินิจฉัยโรค
+""")
+    
+    st.subheader("Neural Network")
+     
+    st.image("images/Neural_Networks.png", caption="source: https://www.geeksforgeeks.org/deep-learning/artificial-neural-networks-and-its-applications/")
+
+    st.write("""
+Neural Network เป็นโมเดลที่ได้รับแรงบันดาลใจจากโครงสร้างของสมองมนุษย์
+โดยประกอบด้วยโหนด (Nodes) หรือที่เรียกว่า Neurons
+ซึ่งเชื่อมต่อกันเป็นชั้น (Layers)
+
+โมเดลประกอบด้วย 3 ส่วนหลัก ได้แก่
+Input Layer, Hidden Layers และ Output Layer
+
+Neural Network สามารถเรียนรู้ความสัมพันธ์ที่ซับซ้อนของข้อมูลได้
+โดยใช้กระบวนการที่เรียกว่า Forward Propagation และ Backpropagation
+
+ข้อดีของ Neural Network คือ
+สามารถจัดการกับข้อมูลที่มีความซับซ้อนสูงได้ดี
+เช่น ความสัมพันธ์ระหว่างหลายตัวแปรทางสุขภาพ
+
+อย่างไรก็ตาม โมเดลนี้ต้องการข้อมูลจำนวนมาก
+และใช้เวลาในการฝึกค่อนข้างสูง
+เมื่อเทียบกับโมเดล Machine Learning แบบดั้งเดิม
 """)
 
     st.header("Why Neural Network")
@@ -427,7 +427,6 @@ elif page == "References":
     st.write("""
 1. Kaggle Dataset  
 https://www.kaggle.com/datasets/mathchi/diabetes-data-set?resource=download
-
 https://www.kaggle.com/datasets/uciml/breast-cancer-wisconsin-data
 
 
