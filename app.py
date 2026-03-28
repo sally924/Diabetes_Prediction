@@ -74,7 +74,6 @@ elif page == "Model 1) Explanation":
     st.header("Dataset")
 
     st.write("""
-โมเดลนี้ถูกฝึกด้วย **Pima Indians Diabetes Dataset**
 
 Dataset นี้ประกอบด้วยข้อมูลสุขภาพของผู้ป่วย เช่น
 
@@ -427,8 +426,10 @@ elif page == "References":
 
     st.write("""
 1. Kaggle Dataset  
-Pima Indians Diabetes Dataset  
-https://www.kaggle.com/datasets/uciml/pima-indians-diabetes-database
+https://www.kaggle.com/datasets/mathchi/diabetes-data-set?resource=download
+
+https://www.kaggle.com/datasets/uciml/breast-cancer-wisconsin-data
+
 
 2. Scikit-learn Documentation  
 https://scikit-learn.org
